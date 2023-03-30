@@ -1,0 +1,42 @@
+* Project 4 Sorting
+
+* Due:Friday 4/14 7:00am (the day after the last day of Spring Break)
+
+* Description
+
+Start with the class code that implements the selection, merge, and
+quick sorts.
+
+Write a new version of quick sort, qsort2. It should have this
+signature ~std::vector<int> qsort2(std::vector<int>, int low, int
+high);~.
+
+It should:
+
+1. Use a reasonable pivot (as opposed to just list[0])
+2. It should perform the sort *in place*, that is it should
+   rearrange the elements in the vector around the pivot as opposed to
+   copying to a new vector. It should then return itself.
+3. When first calling, low should be 0 and high should be the last
+   index in the input vector. In each recursive call, low and high
+   should be modified to index in to the part of the vector you're
+   recursively sorting.
+
+Run some timing tests on data sets of different sizes and
+configurations to compare the merge and quick sorts we wrote together
+in class with your new sort. Also, run the C++ built in sort and
+compare that as well (you'll have to look that one up).
+
+
+Edit this file and add comments below indicating what you found when
+you did your timing experiments. 
+
+* Notes:
+
+This assignment does not require doctest testing. It does, however
+require a make file that compiles to an executable named *main*. You
+can create a new Makefile or copy and modify one you've used in the past.
+
+
+* Write your comments here:   
+   
