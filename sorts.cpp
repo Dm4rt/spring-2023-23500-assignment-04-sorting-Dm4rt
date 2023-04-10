@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 #include <time.h>
 #include <unistd.h>
 #include <sys/time.h>
@@ -158,45 +159,64 @@ std::vector<int> qsort(std::vector<int> list){
   return list;
 }
 
-std::vector<int> qsort2(std::vector<int> list, int low, int high){
+std::vector<int> qsort2(std::vector<int>& list, int low, int high){
   int i,j;
 
   // base case
-  if (list.size() <= 1){
+  if (high-low <= 1){
     return list;
   }
 
-  // select pivot value
-  // for now we'll just pick list[0]
-  int pivot = list[0];
-
-  // make 2 new vectors
-  std::vector<int> lower,higher;
+  // select pivot value (I'll be using the median-of-three method)
   
-  // copy all the values < pivot to lower
-  // copy all the values >= pivot to higher;
-  for (i=1;i<list.size();i++){
+  //grab first, middle, and last element
+  int first=list[low];
+  int middle= list[(high-low)/2];
+  int last = list[high];
+  int pivot = middle;
+  int med = (high-low)/2;
+  
+  if (first <= middle && middle <= last){
+    pivot = middle;
+    med=(high-low)/2;
+  }
+  else if (last <= middle && middle <= first){
+    pivot = middle;
+    med=(high-low)/2;
+  }
+  else if (first <= last && last <= middle){
+    pivot = last;
+    med=high;
+  }
+  else if (middle <= last && last <= first){
+    pivot = last;
+    med=high;
+  }
+  else{
+    pivot = first;
+    med=low;
+  }
+
+  // move all values less than pivot to left of vector, 
+  //and all values greater to the right
+  
+  for (i=low;i<=high;i++){
     if (list[i] < pivot){
-      lower.push_back(list[i]);
+      int temp= list[i];
+      list.erase(list.begin()+i);
+      list.insert(list.begin(),temp);
+      
     } else {
-      higher.push_back(list[i]);
+      int temp= list[i];
+      list.erase(list.begin()+i);
+      i--;
+      list.push_back(temp);
     }
   }
 
   // make our recursive calls
-  lower = qsort(lower);
-  higher = qsort(higher);
-
-  // copy everything back
-  for (i=0; i < lower.size(); i++){
-    list[i] = lower[i];
-  }
-  list[i] = pivot;
-  i++;
-  for (j=0;j<higher.size(); j++){
-    list[i] = higher[j];
-    i++;
-  }
+  qsort2(list,low,med-1);
+  qsort2(list,med,high);
 
   // return the sorted list
   return list;
@@ -210,7 +230,7 @@ void print_help(char *command_name){
   std::cout << "  -p : print\n";
   std::cout << "  -s SIZE : array size\n";
   std::cout << "  -m MAX_VAL : maximum element value\n";
-  std::cout << "  -a [s|m|q] : selection, merge, or quick sort\n";
+  std::cout << "  -a [s|m|q|Q] : selection, merge, quick sort, or quick sort 2\n";
   
 }
 
@@ -271,6 +291,9 @@ int main(int argc, char *argv[])
     b = msort(a);
   } else if (algorithm=='q'){
     b = qsort(a);
+  }
+   else if (algorithm=='Q'){
+    b = qsort2(a,0,size-1);
   }
   
 
