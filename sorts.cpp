@@ -221,7 +221,7 @@ void print_help(char *command_name){
   std::cout << "  -p : print\n";
   std::cout << "  -s SIZE : array size\n";
   std::cout << "  -m MAX_VAL : maximum element value\n";
-  std::cout << "  -a [s|m|q|Q] : selection, merge, quick sort, or quick sort 2\n";
+  std::cout << "  -a [s|m|q|Q|b] : selection, merge, quick sort, quick sort 2, or built-in\n";
   
 }
 
@@ -285,6 +285,10 @@ int main(int argc, char *argv[])
   }
    else if (algorithm=='Q'){
     qsort2(a,0,size-1);
+    b = a;
+  }
+   else if (algorithm=='b'){
+    std::sort(a.begin(),a.end());
     b = a;
   }
   
