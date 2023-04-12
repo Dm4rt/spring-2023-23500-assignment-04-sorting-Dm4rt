@@ -39,4 +39,23 @@ can create a new Makefile or copy and modify one you've used in the past.
 
 
 * Write your comments here:   
+
+   Qsort 2 is extremely faster than all the other sorting methods. 
+   When testing on vectors of size 10000,
+   Selection sort had an elapsed time of 210
+   Merge sort had an elapsed time of 28
+   The orginal quick sort had an elapsed time of 31
+   And my quick sort 2 had an elapsed time of 2.
+   The built in sorting for c++ also had an elapsed time of 2,
+   However sometimes quick sort 2 would be quicker and get an elapsed time of 1
+   While the built in sort never did, at least for me
    
+   My findings proved consistent when increasing the size to 100000
+   In fact, selection sort took Way too long and I coudln't even get a time
+   Merge sort had an elapsed time of 283
+   original quick sort had an elapsed time of 1578
+   And my quick sort 2 had an elapsed time of 15
+   The built in sorting gave an elapsed time of 25
+   Further showing how quick sort 2 is the quickest
+   
+   It's insane how much faster quick sort 2 is!
