@@ -159,69 +159,60 @@ std::vector<int> qsort(std::vector<int> list){
   return list;
 }
 
-std::vector<int> qsort2(std::vector<int>& list, int low, int high){
-  int i,j;
-
-  // base case
-  if (high-low <= 1){
-    return list;
-  }
-
-  // select pivot value (I'll be using the median-of-three method)
-  
-  //grab first, middle, and last element
-  int first=list[low];
-  int middle= list[(high-low)/2];
-  int last = list[high];
-  int pivot = middle;
-  int med = (high-low)/2;
-  
-  if (first <= middle && middle <= last){
-    pivot = middle;
-    med=(high-low)/2;
-  }
-  else if (last <= middle && middle <= first){
-    pivot = middle;
-    med=(high-low)/2;
-  }
-  else if (first <= last && last <= middle){
-    pivot = last;
-    med=high;
-  }
-  else if (middle <= last && last <= first){
-    pivot = last;
-    med=high;
-  }
-  else{
-    pivot = first;
-    med=low;
-  }
-
-  // move all values less than pivot to left of vector, 
-  //and all values greater to the right
-  
-  for (i=low;i<=high;i++){
-    if (list[i] < pivot){
-      int temp= list[i];
-      list.erase(list.begin()+i);
-      list.insert(list.begin(),temp);
-      
-    } else {
-      int temp= list[i];
-      list.erase(list.begin()+i);
-      i--;
-      list.push_back(temp);
+void qsort2(std::vector<int>& list, int low, int high) {
+    int i,j;
+    // base case
+    if (low >= high) {
+        return;
     }
-  }
+  
+    // select pivot value (median of three method)
+    int first = list[low];
+    int middle = list[low + (high - low) / 2];
+    int last = list[high];
+    
+    // find median value among first, middle, and last
+    int pivot;
+    if (first <= middle && middle <= last) {
+        pivot = middle;
+    } else if (last <= middle && middle <= first) {
+        pivot = middle;
+    } else if (first <= last && last <= middle) {
+        pivot = last;
+    } else if (middle <= last && last <= first) {
+        pivot = last;
+    } else {
+        pivot = first;
+    }
 
-  // make our recursive calls
-  qsort2(list,low,med-1);
-  qsort2(list,med,high);
-
-  // return the sorted list
-  return list;
+    // move all values less than pivot to left of vector, 
+    //and all values greater to the right
+    i = low;
+    j = high;
+    while (i <= j) {
+    	
+    	//Find a value greater than the pivot
+        while (list[i] < pivot) {
+            i++;
+        }
+        //Find a value thats less than the pivot
+        while (list[j] > pivot) {
+            j--;
+        }
+        //if the value greater than the pivot is on the left, 
+        //and the value less than the pivot on the right,
+        //we swap the values
+        if (i <= j) {
+            std::swap(list[i], list[j]);
+            i++;
+            j--;
+        }
+    }
+    
+    // make recursive calls
+    qsort2(list, low, j);
+    qsort2(list, i, high);
 }
-
 
 void print_help(char *command_name){
   std::cout << command_name << " usage: ";
@@ -293,7 +284,8 @@ int main(int argc, char *argv[])
     b = qsort(a);
   }
    else if (algorithm=='Q'){
-    b = qsort2(a,0,size-1);
+    qsort2(a,0,size-1);
+    b = a;
   }
   
 
